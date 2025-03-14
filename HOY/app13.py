@@ -17,8 +17,8 @@ telefono= st.text_input("Teléfono")
 
 if st.button("agregar cliente"):
     if nombre and email:
-        data = {"mombre" : nombre, "email" : email, "telefono" : telefono}
-        response = supabase.table("cliente").insert(data).execute()
+        data = {"nombre" : nombre, "email" : email, "telefono" : telefono}
+        response = supabase.table("clientes").insert(data).execute()
         st.success("Cliente agregado correctamente ")
     else:
         st.warning("Nombre e email son obligatorios")    
@@ -30,15 +30,13 @@ if clientes.data:
         st.subheader(cliente["nombre"])
         st.write(cliente ["email"])
         st.write(cliente ["telefono"])
-        st.write(f"Fecha de registro: {cliente["fecha_registro"]}")
+        st.write(f"Fecha de registro: {cliente['fecha_registro']}")
 
 
-    if st.button(f"Eliminar {cliente['nombre']}", key=cliente["id"]):
-        supabase.table("cliente").delete().eq("id", cliente["id"]).execute()
-        st.succedd(f"{cliente['nombre']} eliminado correctamente")
-        st.experimental_rerun()
+        if st.button(f"Eliminar {cliente['nombre']}", key=cliente["id"]):
+            supabase.table("clientes").delete().eq("id", cliente["id"]).execute()
+            st.success(f"{cliente['nombre']} eliminado correctamente")
+            st.experimental_rerun()
 
-
-
-    else:
-        st.info("no hay clientes registrados aún")
+else:
+    st.info("no hay clientes registrados aún")
